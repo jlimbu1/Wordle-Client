@@ -37,7 +37,7 @@ const HomePage = () => {
         <span style={{ animation: "colorChange 3s infinite" }}>Bubble Tea</span>
       </AbsoluteTypography>
       <img
-        src={`src/assets/images/homepage_img.jpg`}
+        src={`/images/homepage_img.jpg`}
         alt="homepage_img"
         style={{
           width: "100%",

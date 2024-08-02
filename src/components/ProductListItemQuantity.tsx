@@ -84,7 +84,7 @@ export default function ProductItem({
           <CloseIcon />
         </CloseButton>
         <img
-          src={`src/assets/images/${product.assetPath}`}
+          src={`/images/${product.assetPath}`}
           alt={product.name}
           style={{
             width: "100px",

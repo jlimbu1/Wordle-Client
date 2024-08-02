@@ -52,7 +52,7 @@ export default function ProductListItem({
       <ListItemAvatar>
         <LargeAvatar
           alt={handleNull(product.name)}
-          src={`src/assets/images/${product.assetPath}`}
+          src={`/images/${product.assetPath}`}
           sizes="100%"
         />
       </ListItemAvatar>
