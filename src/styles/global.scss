@@ -1,0 +1,64 @@
+:root {
+  --primary-color: #ff6b6b; // Red
+  --secondary-color: #ffd166; // Yellow
+
+  // Shades of Primary Colors
+  --primary-dark: #ab3d3d;
+  --primary-light: #ffa4a4;
+
+  // Secondary Colors
+  --secondary-dark: #ab8c3d;
+  --secondary-light: #ffeaa4;
+
+  // Additional Colors
+  --accent-color: #45a29e; // Turquoise
+  --grey-color: #cccccc
+}
+
+// Animations
+.hover-effect {
+  transition: transform 0.2s;
+  &:hover,
+  &:active {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes blinking {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes colorChange {
+  0% {
+    color: red;
+  }
+  25% {
+    color: white;
+  }
+  50% {
+    color: green;
+  }
+  75% {
+    color: white;
+  }
+  100% {
+    color: blue;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
