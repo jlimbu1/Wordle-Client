@@ -2,7 +2,8 @@ import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import GroupIcon from "@mui/icons-material/Group";
 import PersonIcon from "@mui/icons-material/Person";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { createSession } from "../apis/Game";
 
 const pages = [
   {
@@ -29,43 +30,47 @@ const AbsoluteBox = styled(Box)({
 });
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
+  const handleButtonClick = async (path: string) => {
+    try {
+      const response = await createSession();
+      const sessionId = response.data;
+      navigate(`${path}/${sessionId}`);
+    } catch (error) {
+      console.error("Error creating game session:", error);
+    }
+  };
+
   return (
     <AbsoluteBox sx={{ textAlign: "center" }}>
       <Typography variant="h1">Wordle</Typography>
       <Typography variant="h6" gutterBottom sx={{ color: "var(--gray-color)" }}>
         LIMBU Jimmy
       </Typography>
-      {pages.map((page) => (
-        <Link
-          to={page.path}
-          key={page.name}
-          style={{
-            textDecoration: "none",
-            color: "inherit",
-            width: "100%",
+      {pages.map((page, index) => (
+        <Button
+          key={index}
+          variant="contained"
+          color={page.color}
+          sx={{
+            margin: "10px",
+            backgroundColor: page.backgroundColor,
+            width: "80%",
           }}
+          onClick={() => handleButtonClick(page.path)}
         >
-          <Button
-            variant="contained"
-            color={page.color}
+          <Box
             sx={{
-              margin: "10px",
-              backgroundColor: page.backgroundColor,
-              width: "80%",
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: "5px",
-              }}
-            >
-              {page.icon}
-              <Typography variant="h5">{page.name}</Typography>
-            </Box>
-          </Button>
-        </Link>
+            {page.icon}
+            <Typography variant="h5">{page.name}</Typography>
+          </Box>
+        </Button>
       ))}
     </AbsoluteBox>
   );
