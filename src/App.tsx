@@ -24,7 +24,7 @@ function App() {
       <Box>
         <Routes>
           <Route path="/" Component={Home} />
-          <Route path="/game" Component={Game} />
+          <Route path="/game/:id" Component={Game} />
         </Routes>
       </Box>
     </BrowserRouter>

@@ -1,9 +1,9 @@
-import { Box, Typography, Button } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const GamePage = () => {
-  return <>GAME</>;
+  const { id } = useParams();
+
+  return id ? <>{id}</> : <>Missing Game Session!</>;
 };
 
 export default GamePage;
