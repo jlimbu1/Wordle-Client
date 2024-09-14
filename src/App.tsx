@@ -3,6 +3,7 @@ import "./styles/global.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Box } from "@mui/material";
 import Home from "./pages";
+import Game from "./pages/Game";
 
 // App component which sets up routes
 function App() {
@@ -23,6 +24,7 @@ function App() {
       <Box>
         <Routes>
           <Route path="/" Component={Home} />
+          <Route path="/game" Component={Game} />
         </Routes>
       </Box>
     </BrowserRouter>
