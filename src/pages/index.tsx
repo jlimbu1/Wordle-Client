@@ -1,54 +1,45 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-const mobileMaxWidth = "600px";
-
-const AbsoluteTypography = styled(Typography)({
-  margin: "0",
+const AbsoluteBox = styled(Box)({
   position: "absolute",
-  top: "70%",
+  top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  fontSize: "min(8vw, 100px)",
-  fontFamily: "cursive",
-  color: "black",
-  textShadow: "0 0 10px black",
-  display: "inline-block",
-  marginBottom: "20px",
-  [`@media (max-width: ${mobileMaxWidth})`]: {
-    top: "65%",
-  },
 });
 
 const HomePage = () => {
   return (
-    <Box
-      sx={{
-        position: "relative",
-        textAlign: "center",
-        marginTop: "100px",
-        backgroundColor: "#f9f9f9",
-        padding: "20px",
-        borderRadius: "10px",
-        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-      }}
-    >
-      <AbsoluteTypography variant="h1" gutterBottom>
-        <span style={{ animation: "colorChange 3s infinite" }}>Bubble Tea</span>
-      </AbsoluteTypography>
-      <img
-        src={`/images/homepage_img.jpg`}
-        alt="homepage_img"
-        style={{
-          width: "100%",
-          maxWidth: "800px",
-          objectFit: "cover",
-        }}
-      ></img>
+    <AbsoluteBox sx={{ textAlign: "center" }}>
+      <Typography variant="h1" gutterBottom>
+        Wordle
+      </Typography>
       <Typography variant="h6" gutterBottom sx={{ color: "#666" }}>
         LIMBU Jimmy
       </Typography>
-    </Box>
+      <Button
+        variant="contained"
+        color="primary"
+        sx={{
+          margin: "10px",
+          backgroundColor: "var(--green-color)",
+          width: "80%",
+        }}
+      >
+        <Typography variant="h5">1 Player</Typography>
+      </Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        sx={{
+          margin: "10px",
+          backgroundColor: "var(--red-color)",
+          width: "80%",
+        }}
+      >
+        <Typography variant="h5">2 Player</Typography>
+      </Button>
+    </AbsoluteBox>
   );
 };
 
