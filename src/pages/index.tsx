@@ -1,5 +1,25 @@
 import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import GroupIcon from "@mui/icons-material/Group";
+import PersonIcon from "@mui/icons-material/Person";
+import { Link } from "react-router-dom";
+
+const pages = [
+  {
+    name: "1 Player",
+    icon: <PersonIcon />,
+    color: "primary",
+    backgroundColor: "var(--green-color)",
+    path: "/game",
+  },
+  {
+    name: "2 Player",
+    icon: <GroupIcon />,
+    color: "secondary",
+    backgroundColor: "var(--red-color)",
+    path: "/waitingRoom",
+  },
+];
 
 const AbsoluteBox = styled(Box)({
   position: "absolute",
@@ -11,34 +31,42 @@ const AbsoluteBox = styled(Box)({
 const HomePage = () => {
   return (
     <AbsoluteBox sx={{ textAlign: "center" }}>
-      <Typography variant="h1" gutterBottom>
-        Wordle
-      </Typography>
-      <Typography variant="h6" gutterBottom sx={{ color: "#666" }}>
+      <Typography variant="h1">Wordle</Typography>
+      <Typography variant="h6" gutterBottom sx={{ color: "var(--gray-color)" }}>
         LIMBU Jimmy
       </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{
-          margin: "10px",
-          backgroundColor: "var(--green-color)",
-          width: "80%",
-        }}
-      >
-        <Typography variant="h5">1 Player</Typography>
-      </Button>
-      <Button
-        variant="contained"
-        color="secondary"
-        sx={{
-          margin: "10px",
-          backgroundColor: "var(--red-color)",
-          width: "80%",
-        }}
-      >
-        <Typography variant="h5">2 Player</Typography>
-      </Button>
+      {pages.map((page) => (
+        <Link
+          to={page.path}
+          key={page.name}
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+            width: "100%",
+          }}
+        >
+          <Button
+            variant="contained"
+            color={page.color}
+            sx={{
+              margin: "10px",
+              backgroundColor: page.backgroundColor,
+              width: "80%",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+              }}
+            >
+              {page.icon}
+              <Typography variant="h5">{page.name}</Typography>
+            </Box>
+          </Button>
+        </Link>
+      ))}
     </AbsoluteBox>
   );
 };
