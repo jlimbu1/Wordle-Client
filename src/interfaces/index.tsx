@@ -3,12 +3,8 @@ export interface ILocalStorageItem {
   value: any;
 }
 
-export interface IProduct {
-  id: number;
-  assetPath?: string;
-  name?: string;
-  description?: string;
-  currency?: string;
-  price: number;
-  labels?: Array<string>;
+export enum status {
+  PENDING = "PENDING",
+  WIN = "WIN",
+  LOSE = "LOSE",
 }
