@@ -13,6 +13,7 @@ const pages = [
     color: "primary",
     backgroundColor: "var(--green-color)",
     path: "/game",
+    enabled: true,
   },
   {
     name: "2 Player",
@@ -20,13 +21,15 @@ const pages = [
     color: "primary",
     backgroundColor: "var(--red-color)",
     path: "/waitingRoom",
+    enabled: false,
   },
   {
     name: "Settings",
     icon: <SettingsIcon />,
     color: "primary",
-    backgroundColor: "var(--grey-color)",
+    backgroundColor: "var(--gray-color)",
     path: "/settings",
+    enabled: true,
   },
 ];
 
@@ -71,6 +74,7 @@ const HomePage = () => {
             width: "80%",
           }}
           onClick={() => handleButtonClick(page.path)}
+          disabled={!page.enabled}
         >
           <Box
             sx={{
