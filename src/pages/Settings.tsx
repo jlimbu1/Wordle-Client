@@ -65,6 +65,7 @@ const SettingsPage = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = wordList.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(wordList.length / itemsPerPage);
 
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -73,10 +74,7 @@ const SettingsPage = () => {
   const handlePageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const pageNumber = parseInt(e.target.value);
 
-    if (
-      pageNumber > 0 &&
-      pageNumber <= Math.ceil(wordList.length / itemsPerPage)
-    ) {
+    if (pageNumber > 0 && pageNumber <= totalPages) {
       setCurrentPage(pageNumber);
     }
   };
@@ -110,6 +108,7 @@ const SettingsPage = () => {
           <AddIcon />
         </Button>
       </Box>
+      {/* TODO: turn the paginated list into a component and add search function */}
       <List
         sx={{
           border: "1px solid black",
@@ -132,28 +131,41 @@ const SettingsPage = () => {
           </ListItem>
         ))}
       </List>
-      <Box sx={{ margin: 2, display: "flex", gap: "5px" }}>
+      <Box
+        sx={{
+          margin: 2,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "10px",
+        }}
+      >
         <Button
           variant="outlined"
           onClick={() => paginate(currentPage - 1)}
           disabled={currentPage === 1}
         >
-          {"<"}
+          Prev
         </Button>
-        <TextField
-          label="Page"
-          type="number"
-          variant="outlined"
-          size="small"
-          value={currentPage}
-          onChange={handlePageChange}
-        />
+        <Typography variant="body1">
+          Page{" "}
+          <TextField
+            type="number"
+            variant="outlined"
+            size="small"
+            value={currentPage}
+            onChange={handlePageChange}
+            sx={{ width: 80 }}
+          />{" "}
+          of {totalPages}
+        </Typography>
+
         <Button
           variant="outlined"
           onClick={() => paginate(currentPage + 1)}
           disabled={indexOfLastItem >= wordList.length}
         >
-          {">"}
+          Next
         </Button>
       </Box>
     </Box>
