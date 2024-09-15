@@ -2,6 +2,7 @@ import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import GroupIcon from "@mui/icons-material/Group";
 import PersonIcon from "@mui/icons-material/Person";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { useNavigate } from "react-router-dom";
 import { createSession } from "../apis/Game";
 
@@ -16,9 +17,16 @@ const pages = [
   {
     name: "2 Player",
     icon: <GroupIcon />,
-    color: "secondary",
+    color: "primary",
     backgroundColor: "var(--red-color)",
     path: "/waitingRoom",
+  },
+  {
+    name: "Settings",
+    icon: <SettingsIcon />,
+    color: "primary",
+    backgroundColor: "var(--grey-color)",
+    path: "/settings",
   },
 ];
 
@@ -33,6 +41,11 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = async (path: string) => {
+    if (path.includes("settings")) {
+      navigate(`${path}`);
+      return;
+    }
+
     try {
       const sessionId = await createSession();
       navigate(`${path}/${sessionId}`);

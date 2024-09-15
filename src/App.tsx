@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Box } from "@mui/material";
 import Home from "./pages";
 import Game from "./pages/Game";
+import Settings from "./pages/Settings";
 
 // App component which sets up routes
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/" Component={Home} />
           <Route path="/game/:id" Component={Game} />
+          <Route path="/settings" Component={Settings} />
         </Routes>
       </Box>
     </BrowserRouter>
