@@ -14,12 +14,14 @@ import { words } from "../data/data";
 import { debounce } from "lodash";
 
 const SettingsPage = () => {
-  const localGuesses = parseInt(localStorage.getItem("numberOfGuesses") ?? "5");
+  const localMaxGuesses = parseInt(
+    localStorage.getItem("numberOfGuesses") ?? "5"
+  );
   const localWordList = JSON.parse(
     localStorage.getItem("wordList") ?? JSON.stringify(words)
   );
 
-  const [numberOfGuesses, setNumberOfGuesses] = useState(localGuesses);
+  const [numberOfGuesses, setNumberOfGuesses] = useState(localMaxGuesses);
   const [wordList, setWordList] = useState<string[]>(localWordList);
   const [inputWord, setInputWord] = useState("");
   const [currentPage, setCurrentPage] = useState(1);

@@ -17,6 +17,7 @@ const GamePage = () => {
       }));
       setResults((prevResults) => [newResult, ...prevResults]);
       setWord("");
+      console.log(results);
     } catch (error) {
       console.error("Error on checking guess:", error);
     }
@@ -53,7 +54,6 @@ const GamePage = () => {
           Check
         </Button>
       </Box>
-
       {results.length > 0 && (
         <div style={{ marginTop: "20px" }}>
           {results.map((guesses, guessIndex) => (

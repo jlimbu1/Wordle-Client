@@ -6,8 +6,14 @@ export const getAllWords = async () => {
   return (await api.get(`/${BASE_URL}/words`))?.data;
 };
 
-export const createSession = async (word?: string) => {
-  return (await api.post(`/${BASE_URL}/sessions`, word))?.data;
+export const createSession = async (
+  wordList: string[],
+  maxGuesses: number,
+  word?: string
+) => {
+  return (
+    await api.post(`/${BASE_URL}/sessions`, { wordList, word, maxGuesses })
+  )?.data;
 };
 
 export const checkGuess = async (id?: string, guess?: string) => {

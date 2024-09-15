@@ -7,6 +7,7 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { createSession } from "../apis/Game";
+import { words } from "../data/data";
 
 const pages = [
   {
@@ -44,6 +45,12 @@ const AbsoluteBox = styled(Box)({
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const localMaxGuesses = parseInt(
+    localStorage.getItem("numberOfGuesses") ?? "5"
+  );
+  const localWordList = JSON.parse(
+    localStorage.getItem("wordList") ?? JSON.stringify(words)
+  );
 
   const handleButtonClick = async (path: string) => {
     if (path.includes("settings")) {
@@ -52,7 +59,7 @@ const HomePage = () => {
     }
 
     try {
-      const sessionId = await createSession();
+      const sessionId = await createSession(localWordList, localMaxGuesses);
       navigate(`${path}/${sessionId}`);
     } catch (error) {
       console.error("Error creating game session:", error);
