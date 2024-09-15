@@ -18,7 +18,7 @@ const GamePage = () => {
       setResults((prevResults) => [...prevResults, newResult]);
       setWord("");
     } catch (error) {
-      console.error("Error creating game session:", error);
+      console.error("Error on checking guess:", error);
     }
   };
 
