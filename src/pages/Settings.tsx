@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  Divider,
   Typography,
   TextField,
   Box,
@@ -7,9 +8,11 @@ import {
   List,
   ListItem,
   ListItemText,
+  IconButton,
 } from "@mui/material";
 import { getAllWords } from "../apis/Game";
 import AddIcon from "@mui/icons-material/add";
+import ClearIcon from "@mui/icons-material/clear";
 
 const SettingsPage = () => {
   const initialGuesses = parseInt(
@@ -38,6 +41,7 @@ const SettingsPage = () => {
   }, []);
 
   const handleAddWord = () => {
+    // Perform validation for new word on server before adding
     if (newWord.trim() !== "") {
       setWordList([...wordList, newWord.trim()].sort());
       setNewWord("");
@@ -78,7 +82,9 @@ const SettingsPage = () => {
       </Box>
       <List
         sx={{
-          maxWidth: 300,
+          border: "1px solid black",
+          borderRadius: "10px",
+          maxWidth: 500,
           margin: "auto",
           maxHeight: 200,
           overflowY: "auto",
@@ -87,9 +93,13 @@ const SettingsPage = () => {
         {wordList.map((word, index) => (
           <ListItem key={index} sx={{ justifyContent: "space-between" }}>
             <ListItemText primary={word} />
-            <Button variant="outlined" onClick={() => handleRemoveWord(index)}>
-              Remove
-            </Button>
+            <IconButton
+              color="error"
+              onClick={() => handleRemoveWord(index)}
+              aria-label="remove word"
+            >
+              <ClearIcon />
+            </IconButton>
           </ListItem>
         ))}
       </List>
