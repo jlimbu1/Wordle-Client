@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./styles/global.scss";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Box } from "@mui/material";
+import HorizontalNavBar from "./components/HorizontalNavBar";
 import Home from "./pages";
 import Game from "./pages/Game";
 import Settings from "./pages/Settings";
@@ -22,7 +23,9 @@ function App() {
 
   return (
     <BrowserRouter basename="/">
-      <Box>
+      <HorizontalNavBar isMobile={isMobile} />
+      {/* set paddings to offset navigation bar */}
+      <Box sx={isMobile ? { pb: "76px" } : { pt: "64px" }}>
         <Routes>
           <Route path="/" Component={Home} />
           <Route path="/game/:id" Component={Game} />
