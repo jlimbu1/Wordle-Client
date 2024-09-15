@@ -1,8 +1,10 @@
 import { Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import GroupIcon from "@mui/icons-material/Group";
-import PersonIcon from "@mui/icons-material/Person";
-import SettingsIcon from "@mui/icons-material/Settings";
+import {
+  Group as GroupIcon,
+  People as PersonIcon,
+  Settings as SettingsIcon,
+} from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { createSession } from "../apis/Game";
 

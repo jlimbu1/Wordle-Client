@@ -9,9 +9,9 @@ import {
   ListItemText,
   IconButton,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/add";
-import ClearIcon from "@mui/icons-material/clear";
+import { Add as AddIcon, Clear as ClearIcon } from "@mui/icons-material";
 import { words } from "../data/data";
+import { debounce } from "lodash";
 
 const SettingsPage = () => {
   const localGuesses = parseInt(localStorage.getItem("numberOfGuesses") ?? "5");
@@ -20,30 +20,39 @@ const SettingsPage = () => {
   );
 
   const [numberOfGuesses, setNumberOfGuesses] = useState(localGuesses);
-  const [wordList, setWordList] = useState<string[]>([]);
-  const [newWord, setNewWord] = useState("");
+  const [wordList, setWordList] = useState<string[]>(localWordList);
+  const [inputWord, setInputWord] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   useEffect(() => {
     setWordList(localWordList);
   }, []);
 
-  // TODO: add debounce
-  const handleNumberOfGuessesChange = (e: any) => {
+  const debouncedHandleNumberOfGuessesChange = debounce((value: number) => {
+    localStorage.setItem("numberOfGuesses", value.toString());
+  }, 300);
+
+  const handleNumberOfGuessesChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = parseInt(e.target.value);
     if (isNaN(value)) return;
 
     setNumberOfGuesses(value);
-    localStorage.setItem("numberOfGuesses", value.toString());
+    debouncedHandleNumberOfGuessesChange(value);
   };
 
   const handleAddWord = () => {
-    // TODO: Perform validation for new word on server before adding (eg. check if new word is 5 letter)
-    const isExist = wordList.some((x) => x === newWord.toLowerCase());
-    if (newWord.trim() === "" && isExist) return;
+    const isExist = wordList.some((x) => x === inputWord.trim().toLowerCase());
+    if (inputWord.trim() === "" || isExist) return;
 
-    const updatedWordList = [...wordList, newWord.trim().toLowerCase()].sort();
+    const updatedWordList = [
+      ...wordList,
+      inputWord.trim().toLowerCase(),
+    ].sort();
     setWordList(updatedWordList);
-    setNewWord("");
+    setInputWord("");
     localStorage.setItem("wordList", JSON.stringify(updatedWordList));
   };
 
@@ -51,6 +60,25 @@ const SettingsPage = () => {
     const updatedWordList = wordList.filter((_, i) => i !== index).sort();
     setWordList(updatedWordList);
     localStorage.setItem("wordList", JSON.stringify(updatedWordList));
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = wordList.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handlePageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const pageNumber = parseInt(e.target.value);
+
+    if (
+      pageNumber > 0 &&
+      pageNumber <= Math.ceil(wordList.length / itemsPerPage)
+    ) {
+      setCurrentPage(pageNumber);
+    }
   };
 
   return (
@@ -63,18 +91,20 @@ const SettingsPage = () => {
       <TextField
         id="outlined-number"
         label="Number of guesses"
+        variant="outlined"
+        fullWidth
         type="number"
         value={numberOfGuesses}
         onChange={handleNumberOfGuessesChange}
-        fullWidth
         sx={{ marginBottom: 2 }}
       />
       <Box sx={{ marginBottom: 2, display: "flex", gap: "5px" }}>
         <TextField
           label="Add New Word"
-          value={newWord}
-          onChange={(e) => setNewWord(e.target.value)}
+          variant="outlined"
           fullWidth
+          value={inputWord}
+          onChange={(e) => setInputWord(e.target.value)}
         />
         <Button variant="contained" onClick={handleAddWord}>
           <AddIcon />
@@ -85,17 +115,16 @@ const SettingsPage = () => {
           border: "1px solid black",
           borderRadius: "10px",
           maxWidth: 500,
-          margin: "auto",
-          maxHeight: 200,
-          overflowY: "auto",
+          maxHeight: 400,
+          overflowY: "scroll",
         }}
       >
-        {wordList.map((word, index) => (
-          <ListItem key={index} sx={{ justifyContent: "space-between" }}>
+        {currentItems.map((word, index) => (
+          <ListItem key={word} sx={{ justifyContent: "space-between" }}>
             <ListItemText primary={word} />
             <IconButton
               color="error"
-              onClick={() => handleRemoveWord(index)}
+              onClick={() => handleRemoveWord(indexOfFirstItem + index)}
               aria-label="remove word"
             >
               <ClearIcon />
@@ -103,6 +132,30 @@ const SettingsPage = () => {
           </ListItem>
         ))}
       </List>
+      <Box sx={{ margin: 2, display: "flex", gap: "5px" }}>
+        <Button
+          variant="outlined"
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          {"<"}
+        </Button>
+        <TextField
+          label="Page"
+          type="number"
+          variant="outlined"
+          size="small"
+          value={currentPage}
+          onChange={handlePageChange}
+        />
+        <Button
+          variant="outlined"
+          onClick={() => paginate(currentPage + 1)}
+          disabled={indexOfLastItem >= wordList.length}
+        >
+          {">"}
+        </Button>
+      </Box>
     </Box>
   );
 };

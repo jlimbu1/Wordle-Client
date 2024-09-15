@@ -1,6 +1,6 @@
 import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import HomeIcon from "@mui/icons-material/Home";
+import { Home as HomeIcon } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 const mobileMaxWidth = "600px";
