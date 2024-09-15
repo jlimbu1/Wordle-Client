@@ -34,8 +34,7 @@ const HomePage = () => {
 
   const handleButtonClick = async (path: string) => {
     try {
-      const response = await createSession();
-      const sessionId = response.data;
+      const sessionId = await createSession();
       navigate(`${path}/${sessionId}`);
     } catch (error) {
       console.error("Error creating game session:", error);
