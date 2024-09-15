@@ -21,6 +21,12 @@ function App() {
     };
   }, []);
 
+  // Initialize numberOfGuesses to 5 in localStorage on app load
+  useEffect(() => {
+    if (!localStorage.getItem("numberOfGuesses"))
+      localStorage.setItem("numberOfGuesses", "5");
+  }, []);
+
   return (
     <BrowserRouter basename="/">
       <HorizontalNavBar isMobile={isMobile} />
