@@ -6,6 +6,7 @@ import HorizontalNavBar from "./components/HorizontalNavBar";
 import Home from "./pages";
 import Game from "./pages/Game";
 import Settings from "./pages/Settings";
+import { words } from "./data/data";
 
 // App component which sets up routes
 function App() {
@@ -21,10 +22,13 @@ function App() {
     };
   }, []);
 
-  // Initialize numberOfGuesses to 5 in localStorage on app load
   useEffect(() => {
+    // Initialize numberOfGuesses to 5 in localStorage on app load
     if (!localStorage.getItem("numberOfGuesses"))
       localStorage.setItem("numberOfGuesses", "5");
+    // Initialize wordList in localStorage on app load
+    if (!localStorage.getItem("wordList"))
+      localStorage.setItem("wordList", JSON.stringify(words));
   }, []);
 
   return (

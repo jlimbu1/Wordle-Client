@@ -15,7 +15,7 @@ const GamePage = () => {
         char: word[i],
         feedback: x,
       }));
-      setResults((prevResults) => [...prevResults, newResult]);
+      setResults((prevResults) => [newResult, ...prevResults]);
       setWord("");
     } catch (error) {
       console.error("Error on checking guess:", error);
@@ -40,21 +40,20 @@ const GamePage = () => {
       <Typography variant="h3" align="center" gutterBottom>
         Wordle
       </Typography>
-      <TextField
-        label="Enter your guess (5 letters)"
-        variant="outlined"
-        fullWidth
-        value={word}
-        // TODO: Only allow 5 alphabetic characters input
-        // onChange={(e) => {
-        //   const input = e.target.value.slice(0, NUM_LETTERS);
-        //   setWord(input.toUpperCase());
-        // }}
-        style={{ marginBottom: "20px" }}
-      />
-      <Button variant="contained" color="primary" onClick={checkWord}>
-        Check
-      </Button>
+      <Box sx={{ marginBottom: 2, display: "flex", gap: "5px" }}>
+        <TextField
+          label="Enter your guess (5 letters)"
+          variant="outlined"
+          fullWidth
+          value={word}
+          // TODO: Only allow 5 alphabetic characters input
+          onChange={(e) => setWord(e.target.value)}
+        />
+        <Button variant="contained" color="primary" onClick={checkWord}>
+          Check
+        </Button>
+      </Box>
+
       {results.length > 0 && (
         <div style={{ marginTop: "20px" }}>
           {results.map((guesses, guessIndex) => (

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  Divider,
   Typography,
   TextField,
   Box,
@@ -10,47 +9,48 @@ import {
   ListItemText,
   IconButton,
 } from "@mui/material";
-import { getAllWords } from "../apis/Game";
 import AddIcon from "@mui/icons-material/add";
 import ClearIcon from "@mui/icons-material/clear";
+import { words } from "../data/data";
 
 const SettingsPage = () => {
-  const initialGuesses = parseInt(
-    localStorage.getItem("numberOfGuesses") ?? "5"
+  const localGuesses = parseInt(localStorage.getItem("numberOfGuesses") ?? "5");
+  const localWordList = JSON.parse(
+    localStorage.getItem("wordList") ?? JSON.stringify(words)
   );
-  const [numberOfGuesses, setNumberOfGuesses] = useState(initialGuesses);
+
+  const [numberOfGuesses, setNumberOfGuesses] = useState(localGuesses);
   const [wordList, setWordList] = useState<string[]>([]);
   const [newWord, setNewWord] = useState("");
 
-  const handleNumberOfGuessesChange = (e) => {
-    const value = parseInt(e.target.value);
-    if (!isNaN(value)) setNumberOfGuesses(value);
-  };
-
-  const fetchWordList = async () => {
-    try {
-      const res = await getAllWords();
-      if (res.length > 0) setWordList(res.sort());
-    } catch (error) {
-      console.error("Error fetching word list:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchWordList();
+    setWordList(localWordList);
   }, []);
 
+  // TODO: add debounce
+  const handleNumberOfGuessesChange = (e: any) => {
+    const value = parseInt(e.target.value);
+    if (isNaN(value)) return;
+
+    setNumberOfGuesses(value);
+    localStorage.setItem("numberOfGuesses", value.toString());
+  };
+
   const handleAddWord = () => {
-    // Perform validation for new word on server before adding
-    if (newWord.trim() !== "") {
-      setWordList([...wordList, newWord.trim()].sort());
-      setNewWord("");
-    }
+    // TODO: Perform validation for new word on server before adding (eg. check if new word is 5 letter)
+    const isExist = wordList.some((x) => x === newWord.toLowerCase());
+    if (newWord.trim() === "" && isExist) return;
+
+    const updatedWordList = [...wordList, newWord.trim().toLowerCase()].sort();
+    setWordList(updatedWordList);
+    setNewWord("");
+    localStorage.setItem("wordList", JSON.stringify(updatedWordList));
   };
 
   const handleRemoveWord = (index: number) => {
     const updatedWordList = wordList.filter((_, i) => i !== index).sort();
     setWordList(updatedWordList);
+    localStorage.setItem("wordList", JSON.stringify(updatedWordList));
   };
 
   return (
