@@ -3,6 +3,7 @@ import { Container, TextField, Button, Typography, Box } from "@mui/material";
 import { checkGuess } from "../apis/Game";
 import { useParams } from "react-router-dom";
 import { status as IStatus } from "../interfaces";
+import ListGuesses from "../components/ListGuesses";
 
 const GamePage = () => {
   const { id } = useParams();
@@ -28,19 +29,6 @@ const GamePage = () => {
       setWord("");
     } catch (error) {
       console.error("Error on checking guess:", error);
-    }
-  };
-
-  const getColorForFeedback = (feedback: string) => {
-    switch (feedback) {
-      case "HIT":
-        return "green";
-      case "PRESENT":
-        return "yellow";
-      case "MISS":
-        return "red";
-      default:
-        return "black";
     }
   };
 
@@ -70,29 +58,7 @@ const GamePage = () => {
       <Typography variant="h5" align="center" gutterBottom>
         Score: {score}
       </Typography>
-      {results.length > 0 && (
-        <div style={{ marginTop: "20px" }}>
-          {results.map((guesses, guessIndex) => (
-            <div key={guessIndex} style={{ marginBottom: "10px" }}>
-              {guesses.map(
-                (result: { char: string; feedback: string }, index: number) => (
-                  <Box
-                    key={result.char + index}
-                    sx={{
-                      backgroundColor: getColorForFeedback(result.feedback),
-                      display: "inline-block",
-                      padding: "15px",
-                      margin: "5px 15px",
-                    }}
-                  >
-                    <Typography variant="h5">{result.char}</Typography>
-                  </Box>
-                )
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+      <ListGuesses guesses={results} />
       {status === IStatus.LOSE && (
         <Typography
           variant="h3"
