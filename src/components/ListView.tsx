@@ -9,13 +9,17 @@ import {
 
 type ListViewProps = {
   items: string[];
+  itemsPerPage: number;
   slot: (index: number) => React.ReactNode;
   sx: object;
 };
 
-const itemsPerPage = 5;
-
-const ListView: React.FC<ListViewProps> = ({ items, slot, sx }) => {
+const ListView: React.FC<ListViewProps> = ({
+  items,
+  itemsPerPage,
+  slot,
+  sx,
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredItems, setFilteredItems] = useState<string[]>(items);

@@ -84,6 +84,7 @@ const SettingsPage = () => {
       </Box>
       <ListView
         items={wordList}
+        itemsPerPage={10}
         slot={(index: number) => (
           <IconButton
             color="error"
