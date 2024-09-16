@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { Add as AddIcon, Clear as ClearIcon } from "@mui/icons-material";
 import ListView from "../components/ListView";
-import debounce from "lodash";
+import { words } from "../data/data";
 
 const SettingsPage = () => {
   const localMaxGuesses = parseInt(
@@ -27,10 +27,6 @@ const SettingsPage = () => {
     setWordList(localWordList);
   }, []);
 
-  const debouncedHandleNumberOfGuessesChange = debounce((value: number) => {
-    localStorage.setItem("numberOfGuesses", value.toString());
-  }, 1000);
-
   const handleNumberOfGuessesChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -38,7 +34,7 @@ const SettingsPage = () => {
     if (isNaN(value)) return;
 
     setNumberOfGuesses(value);
-    debouncedHandleNumberOfGuessesChange(value);
+    localStorage.setItem("numberOfGuesses", value.toString());
   };
 
   const handleAddWord = () => {

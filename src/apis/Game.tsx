@@ -6,6 +6,10 @@ export const getAllWords = async () => {
   return (await api.get(`/${BASE_URL}/words`))?.data;
 };
 
+export const getAllAvailableRooms = async () => {
+  return (await api.get(`/${BASE_URL}/rooms`))?.data;
+};
+
 export const createSession = async (
   wordList: string[],
   maxGuesses: number,

@@ -41,6 +41,7 @@ function App() {
           <Route path="/" Component={Home} />
           <Route path="/game/:id" Component={Game} />
           <Route path="/rooms" Component={Room} />
+          <Route path="/rooms/:id" Component={Game} />
           <Route path="/settings" Component={Settings} />
         </Routes>
       </Box>
