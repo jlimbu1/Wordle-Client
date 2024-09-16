@@ -15,8 +15,6 @@ const SettingsPage = () => {
   const [numberOfGuesses, setNumberOfGuesses] = useState(localMaxGuesses);
   const [wordList, setWordList] = useState<string[]>(localWordList);
   const [inputWord, setInputWord] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
 
   useEffect(() => {
     setWordList(localWordList);
@@ -24,7 +22,7 @@ const SettingsPage = () => {
 
   const debouncedHandleNumberOfGuessesChange = debounce((value: number) => {
     localStorage.setItem("numberOfGuesses", value.toString());
-  }, 300);
+  }, 1000);
 
   const handleNumberOfGuessesChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -53,15 +51,6 @@ const SettingsPage = () => {
     const updatedWordList = wordList.filter((_, i) => i !== index).sort();
     setWordList(updatedWordList);
     localStorage.setItem("wordList", JSON.stringify(updatedWordList));
-  };
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = wordList.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(wordList.length / itemsPerPage);
-
-  const handlePagination = (page: number) => {
-    setCurrentPage(page);
   };
 
   return (
@@ -94,11 +83,11 @@ const SettingsPage = () => {
         </Button>
       </Box>
       <ListView
-        currentItems={currentItems}
+        items={wordList}
         slot={(index: number) => (
           <IconButton
             color="error"
-            onClick={() => handleRemoveWord(indexOfFirstItem + index)}
+            onClick={() => handleRemoveWord(index)}
             aria-label="remove word"
           >
             <ClearIcon />
@@ -109,9 +98,6 @@ const SettingsPage = () => {
           borderRadius: "10px",
           maxWidth: 500,
         }}
-        totalPages={totalPages}
-        currentPage={currentPage}
-        paginate={handlePagination}
       />
     </Box>
   );
