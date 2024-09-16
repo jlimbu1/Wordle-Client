@@ -58,13 +58,14 @@ const ListView: React.FC<ListViewProps> = ({ items, slot, sx }) => {
             {slot(indexOfFirstItem + index)}
           </ListItem>
         ))}
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={(event, page) => handlePagination(page)}
+          />
+        </div>
       </List>
-      <Pagination
-        count={totalPages}
-        page={currentPage}
-        onChange={(event, page) => handlePagination(page)}
-        sx={{ marginTop: 2, justifyContent: "center" }}
-      />
     </>
   );
 };
