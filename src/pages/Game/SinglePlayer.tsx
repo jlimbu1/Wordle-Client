@@ -21,10 +21,13 @@ const GamePage = () => {
       setScore(score);
       if (answer) setAnswer(answer?.toUpperCase());
 
-      const newResult = result.map((x: string, i: number) => ({
-        char: word[i],
-        feedback: x,
-      }));
+      const newResult = {
+        user: "You",
+        result: result.map((feedback: string, i: number) => ({
+          char: word[i],
+          feedback,
+        })),
+      };
       setResults((prevResults) => [newResult, ...prevResults]);
       setWord("");
     } catch (error) {
