@@ -4,7 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Box } from "@mui/material";
 import HorizontalNavBar from "./components/HorizontalNavBar";
 import Home from "./pages";
-import Game from "./pages/Game";
+import SinglePlayerGame from "./pages/Game/SinglePlayer";
+import MultiPlayerGame from "./pages/Game/MultiPlayer";
 import Room from "./pages/Rooms";
 import Settings from "./pages/Settings";
 import { words } from "./data/data";
@@ -39,9 +40,9 @@ function App() {
       <Box sx={isMobile ? { pb: "76px" } : { pt: "64px" }}>
         <Routes>
           <Route path="/" Component={Home} />
-          <Route path="/game/:id" Component={Game} />
+          <Route path="/game/:id" Component={SinglePlayerGame} />
           <Route path="/rooms" Component={Room} />
-          <Route path="/rooms/:id" Component={Game} />
+          <Route path="/rooms/:id" Component={MultiPlayerGame} />
           <Route path="/settings" Component={Settings} />
         </Routes>
       </Box>

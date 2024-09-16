@@ -1,25 +1,21 @@
 import React, { useState } from "react";
 import { Container, TextField, Button, Typography, Box } from "@mui/material";
-import { checkGuess } from "../apis/Game";
+import { checkGuess } from "../../apis/Game";
 import { useParams } from "react-router-dom";
-import { status as IStatus } from "../interfaces";
-import ListGuesses from "../components/ListGuesses";
+import { status as IStatus } from "../../interfaces";
+import ListGuesses from "../../components/ListGuesses";
 
 const GamePage = () => {
   const { id } = useParams();
   const [word, setWord] = useState("");
   const [results, setResults] = useState<any[]>([]);
-  const [score, setScore] = useState(0);
   const [status, setStatus] = useState(IStatus.PENDING);
-  const [answer, setAnswer] = useState("");
 
   const checkWord = async () => {
     try {
-      const { result, status, score, answer } = await checkGuess(id, word);
+      const { result, status } = await checkGuess(id, word);
 
       setStatus(status);
-      setScore(score);
-      if (answer) setAnswer(answer?.toUpperCase());
 
       const newResult = result.map((x: string, i: number) => ({
         char: word[i],
@@ -55,32 +51,7 @@ const GamePage = () => {
           Check
         </Button>
       </Box>
-      <Typography variant="h5" align="center" gutterBottom>
-        Score: {score}
-      </Typography>
       <ListGuesses guesses={results} />
-      {status === IStatus.LOSE && (
-        <Typography
-          variant="h3"
-          align="center"
-          color="error"
-          gutterBottom
-          style={{ animation: "blinking 1s infinite" }}
-        >
-          The word was: {answer}
-        </Typography>
-      )}
-      {status === IStatus.WIN && (
-        <Typography
-          variant="h3"
-          align="center"
-          color="success"
-          gutterBottom
-          style={{ animation: "blinking 1s infinite" }}
-        >
-          Win!
-        </Typography>
-      )}
     </Container>
   );
 };
