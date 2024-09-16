@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Typography, TextField, Box, Button, IconButton } from "@mui/material";
+import {
+  Typography,
+  TextField,
+  Box,
+  Button,
+  IconButton,
+  Container,
+} from "@mui/material";
 import { Add as AddIcon, Clear as ClearIcon } from "@mui/icons-material";
 import ListView from "../components/ListView";
 import debounce from "lodash";
@@ -54,10 +61,8 @@ const SettingsPage = () => {
   };
 
   return (
-    <Box
-      sx={{ textAlign: "center", maxWidth: 400, margin: "auto", padding: 2 }}
-    >
-      <Typography variant="h3" gutterBottom>
+    <Container maxWidth="sm" style={{ marginTop: "50px" }}>
+      <Typography variant="h3" align="center" gutterBottom>
         Settings
       </Typography>
       <TextField
@@ -97,10 +102,10 @@ const SettingsPage = () => {
         sx={{
           border: "1px solid black",
           borderRadius: "10px",
-          maxWidth: 500,
+          maxWidth: 550,
         }}
       />
-    </Box>
+    </Container>
   );
 };
 

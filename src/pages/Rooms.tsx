@@ -1,12 +1,14 @@
-import React from "react";
 import ListView from "../components/ListView";
-import { Button } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 
 const RoomsPage = () => {
   const handleJoinRoom = (index: number) => {};
 
   return (
-    <>
+    <Container maxWidth="sm" style={{ marginTop: "50px" }}>
+      <Typography variant="h3" align="center" gutterBottom>
+        Rooms
+      </Typography>
       <ListView
         items={["test"]}
         itemsPerPage={10}
@@ -21,7 +23,7 @@ const RoomsPage = () => {
           maxWidth: 500,
         }}
       />
-    </>
+    </Container>
   );
 };
 

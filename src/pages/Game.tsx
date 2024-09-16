@@ -49,9 +49,6 @@ const GamePage = () => {
       <Typography variant="h3" align="center" gutterBottom>
         Wordle
       </Typography>
-      <Typography variant="h5" align="center" gutterBottom>
-        Score: {score}
-      </Typography>
       <Box sx={{ marginBottom: 2, display: "flex", gap: "5px" }}>
         <TextField
           label="Enter your guess (5 letters)"
@@ -70,6 +67,9 @@ const GamePage = () => {
           Check
         </Button>
       </Box>
+      <Typography variant="h5" align="center" gutterBottom>
+        Score: {score}
+      </Typography>
       {results.length > 0 && (
         <div style={{ marginTop: "20px" }}>
           {results.map((guesses, guessIndex) => (

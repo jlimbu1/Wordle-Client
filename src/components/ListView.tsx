@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  Box,
   List,
   ListItem,
   ListItemText,
@@ -47,30 +48,30 @@ const ListView: React.FC<ListViewProps> = ({
   };
 
   return (
-    <>
-      <List sx={sx}>
+    <List sx={sx}>
+      <Box sx={{ paddingX: 2 }}>
         <TextField
           label="Search"
           variant="outlined"
           value={searchTerm}
           onChange={(e) => handleSearchChange(e.target.value)}
-          sx={{ marginBottom: 2 }}
+          fullWidth
         />
-        {currentItems.map((content: string, index: number) => (
-          <ListItem key={content} sx={{ justifyContent: "space-between" }}>
-            <ListItemText primary={content} />
-            {slot(indexOfFirstItem + index)}
-          </ListItem>
-        ))}
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <Pagination
-            count={totalPages}
-            page={currentPage}
-            onChange={(event, page) => handlePagination(page)}
-          />
-        </div>
-      </List>
-    </>
+      </Box>
+      {currentItems.map((content: string, index: number) => (
+        <ListItem key={content} sx={{ justifyContent: "space-between" }}>
+          <ListItemText primary={content} />
+          {slot(indexOfFirstItem + index)}
+        </ListItem>
+      ))}
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={(event, page) => handlePagination(page)}
+        />
+      </div>
+    </List>
   );
 };
 
