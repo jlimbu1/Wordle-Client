@@ -11,7 +11,7 @@ import { words } from "../data/data";
 
 const pages = [
   {
-    name: "1 Player",
+    name: "Single-player",
     icon: <PersonIcon />,
     color: "primary",
     backgroundColor: "var(--green-color)",
@@ -19,7 +19,7 @@ const pages = [
     enabled: true,
   },
   {
-    name: "2 Player",
+    name: "Multi-player",
     icon: <GroupIcon />,
     color: "primary",
     backgroundColor: "var(--red-color)",
@@ -55,7 +55,11 @@ const HomePage = () => {
   const handleButtonClick = async (path: string) => {
     if (path.includes("game"))
       try {
-        const sessionId = await createSession(localWordList, localMaxGuesses);
+        const sessionId = await createSession(
+          localWordList,
+          false,
+          localMaxGuesses
+        );
         navigate(`${path}/${sessionId}`);
       } catch (error) {
         console.error("Error creating game session:", error);

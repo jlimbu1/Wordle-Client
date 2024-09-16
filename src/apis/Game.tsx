@@ -12,11 +12,17 @@ export const getAllAvailableRooms = async () => {
 
 export const createSession = async (
   wordList: string[],
+  isMultiplayer: boolean,
   maxGuesses: number,
   word?: string
 ) => {
   return (
-    await api.post(`/${BASE_URL}/sessions`, { wordList, word, maxGuesses })
+    await api.post(`/${BASE_URL}/sessions`, {
+      wordList,
+      word,
+      maxGuesses,
+      isMultiplayer,
+    })
   )?.data;
 };
 
