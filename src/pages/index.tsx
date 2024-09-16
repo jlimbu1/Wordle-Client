@@ -23,8 +23,8 @@ const pages = [
     icon: <GroupIcon />,
     color: "primary",
     backgroundColor: "var(--red-color)",
-    path: "/waitingRoom",
-    enabled: false,
+    path: "/rooms",
+    enabled: true,
   },
   {
     name: "Settings",
@@ -53,17 +53,14 @@ const HomePage = () => {
   );
 
   const handleButtonClick = async (path: string) => {
-    if (path.includes("settings")) {
-      navigate(`${path}`);
-      return;
-    }
-
-    try {
-      const sessionId = await createSession(localWordList, localMaxGuesses);
-      navigate(`${path}/${sessionId}`);
-    } catch (error) {
-      console.error("Error creating game session:", error);
-    }
+    if (path.includes("game"))
+      try {
+        const sessionId = await createSession(localWordList, localMaxGuesses);
+        navigate(`${path}/${sessionId}`);
+      } catch (error) {
+        console.error("Error creating game session:", error);
+      }
+    else navigate(`${path}`);
   };
 
   return (

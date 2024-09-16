@@ -5,6 +5,7 @@ import { Box } from "@mui/material";
 import HorizontalNavBar from "./components/HorizontalNavBar";
 import Home from "./pages";
 import Game from "./pages/Game";
+import Room from "./pages/Rooms";
 import Settings from "./pages/Settings";
 import { words } from "./data/data";
 
@@ -39,6 +40,7 @@ function App() {
         <Routes>
           <Route path="/" Component={Home} />
           <Route path="/game/:id" Component={Game} />
+          <Route path="/rooms" Component={Room} />
           <Route path="/settings" Component={Settings} />
         </Routes>
       </Box>
