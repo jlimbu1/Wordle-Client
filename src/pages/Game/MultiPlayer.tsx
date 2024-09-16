@@ -1,31 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, TextField, Button, Typography, Box } from "@mui/material";
 import { checkGuess } from "../../apis/Game";
 import { useParams } from "react-router-dom";
 import { status as IStatus } from "../../interfaces";
 import ListGuesses from "../../components/ListGuesses";
+import { socket } from "../../hooks";
 
 const GamePage = () => {
   const { id } = useParams();
   const [word, setWord] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [status, setStatus] = useState(IStatus.PENDING);
+  const localName = localStorage.getItem("name");
 
-  const checkWord = async () => {
+  useEffect(() => {
+    const handleGuess = (data: { user: string; guess: string }) => {
+      const { user, guess } = data;
+      checkWord(user, guess);
+    };
+
+    socket.on("guess", handleGuess);
+
+    return () => {
+      socket.off("guess", handleGuess);
+    };
+  }, []);
+
+  const checkWord = async (user: string, guess: string) => {
     try {
-      const { result, status } = await checkGuess(id, word);
+      const { result, status } = await checkGuess(id, guess);
 
       setStatus(status);
-
-      const newResult = result.map((x: string, i: number) => ({
-        char: word[i],
-        feedback: x,
-      }));
+      const newResult = {
+        user,
+        result: result.map((feedback: string, i: number) => ({
+          char: guess[i],
+          feedback,
+        })),
+      };
       setResults((prevResults) => [newResult, ...prevResults]);
-      setWord("");
     } catch (error) {
       console.error("Error on checking guess:", error);
     }
+  };
+
+  const handleCheckWord = () => {
+    socket.emit("guess", id, word, localName);
+    setWord("");
   };
 
   return (
@@ -39,13 +60,12 @@ const GamePage = () => {
           variant="outlined"
           fullWidth
           value={word}
-          // TODO: Only allow 5 alphabetic characters input
           onChange={(e) => setWord(e.target.value?.toUpperCase())}
         />
         <Button
           variant="contained"
           color="primary"
-          onClick={checkWord}
+          onClick={handleCheckWord}
           disabled={status !== IStatus.PENDING}
         >
           Check

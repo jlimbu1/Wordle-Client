@@ -25,7 +25,8 @@ const ListGuesses: React.FC<ListViewProps> = ({ guesses }) => {
         <div style={{ marginTop: "20px" }}>
           {guesses.map((results, guessIndex) => (
             <div key={guessIndex} style={{ marginBottom: "10px" }}>
-              {results.map(
+              {results.user && <>{results.user}</>}
+              {results.result.map(
                 (result: { char: string; feedback: string }, index: number) => (
                   <Box
                     key={result.char + index}

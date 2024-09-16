@@ -5,6 +5,7 @@ import { createSession, getAllAvailableRooms } from "../apis/Game";
 import { Add as AddIcon } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { words } from "../data/data";
+import { socket } from "../hooks";
 
 const RoomsPage = () => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const RoomsPage = () => {
     try {
       const sessionId = await createSession(words, true, -1);
       navigate(`${pathname}/${sessionId}`);
+      socket.emit("joinRoom", sessionId, name);
     } catch (error) {
       console.error("Error creating game session:", error);
     }
@@ -47,6 +49,7 @@ const RoomsPage = () => {
   const handleJoinRoom = (index: number) => {
     const sessionId = rooms[index];
     navigate(`${pathname}/${sessionId}`);
+    socket.emit("joinRoom", sessionId, name);
   };
 
   return (
