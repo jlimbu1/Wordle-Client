@@ -1,17 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {
-  Typography,
-  TextField,
-  Box,
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  IconButton,
-} from "@mui/material";
+import { Typography, TextField, Box, Button, IconButton } from "@mui/material";
 import { Add as AddIcon, Clear as ClearIcon } from "@mui/icons-material";
-import { words } from "../data/data";
-import { debounce } from "lodash";
+import ListView from "../components/ListView";
+import debounce from "lodash";
 
 const SettingsPage = () => {
   const localMaxGuesses = parseInt(
@@ -69,16 +60,8 @@ const SettingsPage = () => {
   const currentItems = wordList.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(wordList.length / itemsPerPage);
 
-  const paginate = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handlePageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const pageNumber = parseInt(e.target.value);
-
-    if (pageNumber > 0 && pageNumber <= totalPages) {
-      setCurrentPage(pageNumber);
-    }
+  const handlePagination = (page: number) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -110,66 +93,26 @@ const SettingsPage = () => {
           <AddIcon />
         </Button>
       </Box>
-      {/* TODO: turn the paginated list into a component and add search function */}
-      <List
+      <ListView
+        currentItems={currentItems}
+        slot={(index: number) => (
+          <IconButton
+            color="error"
+            onClick={() => handleRemoveWord(indexOfFirstItem + index)}
+            aria-label="remove word"
+          >
+            <ClearIcon />
+          </IconButton>
+        )}
         sx={{
           border: "1px solid black",
           borderRadius: "10px",
           maxWidth: 500,
-          maxHeight: 400,
-          overflowY: "scroll",
         }}
-      >
-        {currentItems.map((word, index) => (
-          <ListItem key={word} sx={{ justifyContent: "space-between" }}>
-            <ListItemText primary={word} />
-            <IconButton
-              color="error"
-              onClick={() => handleRemoveWord(indexOfFirstItem + index)}
-              aria-label="remove word"
-            >
-              <ClearIcon />
-            </IconButton>
-          </ListItem>
-        ))}
-      </List>
-      <Box
-        sx={{
-          margin: 2,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "10px",
-        }}
-      >
-        <Button
-          variant="outlined"
-          onClick={() => paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Prev
-        </Button>
-        <Typography variant="body1">
-          Page{" "}
-          <TextField
-            type="number"
-            variant="outlined"
-            size="small"
-            value={currentPage}
-            onChange={handlePageChange}
-            sx={{ width: 80 }}
-          />{" "}
-          of {totalPages}
-        </Typography>
-
-        <Button
-          variant="outlined"
-          onClick={() => paginate(currentPage + 1)}
-          disabled={indexOfLastItem >= wordList.length}
-        >
-          Next
-        </Button>
-      </Box>
+        totalPages={totalPages}
+        currentPage={currentPage}
+        paginate={handlePagination}
+      />
     </Box>
   );
 };
