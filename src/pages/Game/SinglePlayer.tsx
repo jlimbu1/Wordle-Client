@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Container, TextField, Button, Typography, Box } from "@mui/material";
 import { checkGuess } from "../../apis/Game";
 import { useParams } from "react-router-dom";

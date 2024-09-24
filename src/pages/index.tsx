@@ -8,12 +8,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import { createSession } from "../apis/Game";
 import { words } from "../data/data";
+import { color, IPage } from "../interfaces";
 
-const pages = [
+const pages: IPage[] = [
   {
     name: "Single-player",
     icon: <PersonIcon />,
-    color: "primary",
+    color: color.PRIMARY,
     backgroundColor: "var(--green-color)",
     path: "/game",
     enabled: true,
@@ -21,7 +22,7 @@ const pages = [
   {
     name: "Multi-player",
     icon: <GroupIcon />,
-    color: "primary",
+    color: color.PRIMARY,
     backgroundColor: "var(--red-color)",
     path: "/rooms",
     enabled: true,
@@ -29,7 +30,7 @@ const pages = [
   {
     name: "Settings",
     icon: <SettingsIcon />,
-    color: "primary",
+    color: color.PRIMARY,
     backgroundColor: "var(--gray-color)",
     path: "/settings",
     enabled: true,
