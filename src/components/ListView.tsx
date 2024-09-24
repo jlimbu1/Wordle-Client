@@ -43,7 +43,8 @@ const ListView: React.FC<ListViewProps> = ({
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
-  const handlePagination = (page: number) => {
+  const handlePagination = (e: React.ChangeEvent<any>, page: number) => {
+    console.log(e);
     setCurrentPage(page);
   };
 
@@ -68,7 +69,7 @@ const ListView: React.FC<ListViewProps> = ({
         <Pagination
           count={totalPages}
           page={currentPage}
-          onChange={(event, page) => handlePagination(page)}
+          onChange={(event, page) => handlePagination(event, page)}
         />
       </div>
     </List>
